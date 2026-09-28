@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Products</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 500px;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #eeeeee;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Food Products</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Food</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+
+        <tbody id="foodTable"></tbody>
+    </table>
+
+    <p>
+        This application is student work and is only for demonstrating
+        web development skills.
+    </p>
+
+    <script>
+        // Fetch all food items from the backend.
+        fetch("/foods")
+            .then(response => response.json())
+            .then(foods => {
+                const table = document.getElementById("foodTable");
+
+                // Add each food item to the table.
+                foods.forEach(food => {
+                    const row = document.createElement("tr");
+
+                    row.innerHTML = `
+                        <td>${food.id}</td>
+                        <td>${food.name}</td>
+                        <td>$${food.price.toFixed(2)}</td>
+                    `;
+
+                    table.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error("Error loading foods:", error);
+            });
+    </script>
+
+</body>
+</html>
